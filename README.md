@@ -3,6 +3,8 @@
 An API Gateway event wrapper for AWS Lambda functions for REST APIs
 
 [![CircleCI](https://circleci.com/gh/diegotremper/aws-serverless-restful-wrapper.svg?style=svg)](https://circleci.com/gh/diegotremper/aws-serverless-restful-wrapper)
+![npm](https://img.shields.io/npm/v/aws-serverless-restful-wrapper)
+![npm](https://img.shields.io/npm/dw/aws-serverless-restful-wrapper)
 [![codecov](https://codecov.io/gh/diegotremper/aws-serverless-restful-wrapper/branch/master/graph/badge.svg)](https://codecov.io/gh/diegotremper/aws-serverless-restful-wrapper)
 [![dependencies Status](https://david-dm.org/diegotremper/aws-serverless-restful-wrapper/status.svg)](https://david-dm.org/diegotremper/aws-serverless-restful-wrapper)
 [![devDependencies Status](https://david-dm.org/diegotremper/aws-serverless-restful-wrapper/dev-status.svg)](https://david-dm.org/diegotremper/aws-serverless-restful-wrapper?type=dev)
