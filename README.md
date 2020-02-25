@@ -123,7 +123,16 @@ module.exports.get = restful.resource({
 })
 ```
 
-### License
+## Contributing
+
+* Write docs
+* Suggest a feature
+* Submit PRs
+  * Logging
+  * Support for XML based REST
+* [Write exemples](https://github.com/diegotremper/aws-serverless-restful-wrapper-examples)
+
+## License
 
 This source code is licensed under the MIT license found in
 the [LICENSE.txt](https://github.com/diegotremper/aws-serverless-restful-wrapper/blob/master/LICENSE) file.
