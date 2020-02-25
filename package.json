@@ -1,13 +1,17 @@
 {
   "name": "aws-serverless-restful-wrapper",
   "version": "0.0.2",
-  "description": "aws-serverless-restful-wrapper",
+  "description": "An API Gateway event wrapper for AWS Lambda functions for REST APIs",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/YOUR_GITHUB_USER_NAME/aws-serverless-restful-wrapper",
+  "repository": "https://github.com/diegotremper/aws-serverless-restful-wrapper",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "aws",
+    "api-gateway",
+    "restful"
+  ],
   "scripts": {
     "describe": "npm-scripts-info",
     "build": "run-s clean && run-p build:*",
