@@ -14,6 +14,16 @@ An API Gateway event wrapper for AWS Lambda functions for REST APIs
 
 ```$ npm install aws-serverless-restful-wrapper```
 
+## Features
+
+* Support request validation with [@hapijs/joi](https://github.com/hapijs/joi)
+* Support [RESTful](https://restfulapi.net/) principle
+* Support [HATEOAS](https://restfulapi.net/hateoas/) principle
+
+## Useful resources
+
+* [Examples](https://github.com/diegotremper/aws-serverless-restful-wrapper-examples)
+
 ## Usage
 
 ### Fetch a single resource
@@ -113,3 +123,7 @@ module.exports.get = restful.resource({
 })
 ```
 
+### License
+
+This source code is licensed under the MIT license found in
+the [LICENSE.txt](https://github.com/diegotremper/aws-serverless-restful-wrapper/blob/master/LICENSE) file.
