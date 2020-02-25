@@ -96,13 +96,13 @@
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
 				</a>
-				<a href="#fetch-a-single-resource" id="fetch-a-single-resource" style="color: inherit; text-decoration: none;">
-					<h3>Fetch a single resource</h3>
+				<a href="#fetch-a-single-document" id="fetch-a-single-document" style="color: inherit; text-decoration: none;">
+					<h3>Fetch a single document</h3>
 				</a>
 				<p><code>GET /todos/{id}</code></p>
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> restful = <span class="hljs-built_in">require</span>(<span class="hljs-string">'aws-serverless-restful-wrapper'</span>)
 
-<span class="hljs-built_in">module</span>.exports.get = restful.resource({
+<span class="hljs-built_in">module</span>.exports.get = restful.document({
   <span class="hljs-attr">target</span>: <span class="hljs-keyword">async</span> (path, query, headers) =&gt; {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Returning todo'</span>)
     <span class="hljs-keyword">return</span> {
@@ -169,7 +169,7 @@ Content-Type: &#39;application/json&#39;
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> Joi = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@hapi/joi'</span>)
 <span class="hljs-keyword">const</span> restful = <span class="hljs-built_in">require</span>(<span class="hljs-string">'aws-serverless-restful-wrapper'</span>)
 
-<span class="hljs-built_in">module</span>.exports.get = restful.resource({
+<span class="hljs-built_in">module</span>.exports.get = restful.document({
   <span class="hljs-attr">validators</span>: {
     <span class="hljs-attr">path</span>: Joi.object({
       <span class="hljs-attr">id</span>: Joi.string().required()
@@ -183,8 +183,21 @@ Content-Type: &#39;application/json&#39;
     }
   }
 })</code></pre>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<ul>
+					<li>Write docs</li>
+					<li>Suggest a feature</li>
+					<li>Submit PRs<ul>
+							<li>Logging</li>
+							<li>Support for XML based REST</li>
+						</ul>
+					</li>
+					<li><a href="https://github.com/diegotremper/aws-serverless-restful-wrapper-examples">Write exemples</a></li>
+				</ul>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
-					<h3>License</h3>
+					<h2>License</h2>
 				</a>
 				<p>This source code is licensed under the MIT license found in
 				the <a href="https://github.com/diegotremper/aws-serverless-restful-wrapper/blob/master/LICENSE">LICENSE.txt</a> file.</p>
@@ -225,6 +238,9 @@ Content-Type: &#39;application/json&#39;
 						<a href="globals.html#collection" class="tsd-kind-icon">collection</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#document" class="tsd-kind-icon">document</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#ensureproperties" class="tsd-kind-icon">ensure<wbr>Properties</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -238,9 +254,6 @@ Content-Type: &#39;application/json&#39;
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#ok" class="tsd-kind-icon">ok</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#resource" class="tsd-kind-icon">resource</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#unsupportedmediatype" class="tsd-kind-icon">unsupported<wbr>Media<wbr>Type</a>
