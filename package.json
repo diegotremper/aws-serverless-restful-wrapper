@@ -1,6 +1,6 @@
 {
   "name": "aws-serverless-restful-wrapper",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "An API Gateway event wrapper for AWS Lambda functions for REST APIs",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
