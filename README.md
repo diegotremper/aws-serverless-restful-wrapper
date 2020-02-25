@@ -26,14 +26,14 @@ An API Gateway event wrapper for AWS Lambda functions for REST APIs
 
 ## Usage
 
-### Fetch a single resource
+### Fetch a single document
 
 ```GET /todos/{id}```
 
 ```javascript
 const restful = require('aws-serverless-restful-wrapper')
 
-module.exports.get = restful.resource({
+module.exports.get = restful.document({
   target: async (path, query, headers) => {
     console.log('Returning todo')
     return {
@@ -107,7 +107,7 @@ Content-Type: 'application/json'
 const Joi = require('@hapi/joi')
 const restful = require('aws-serverless-restful-wrapper')
 
-module.exports.get = restful.resource({
+module.exports.get = restful.document({
   validators: {
     path: Joi.object({
       id: Joi.string().required()

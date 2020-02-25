@@ -1,16 +1,16 @@
 /* eslint-disable no-template-curly-in-string */
 import test from 'ava';
-import { resource } from './resource';
+import { document } from './document';
 import * as Joi from '@hapi/joi';
 
 test('it should return an event handler', t => {
-  const handler = resource({ target: async () => ({}) });
+  const handler = document({ target: async () => ({}) });
   t.truthy(handler);
 });
 
 test('it should handle event correctly', async t => {
   const targetResult = {};
-  const handler = resource({ target: async () => targetResult });
+  const handler = document({ target: async () => targetResult });
   t.truthy(handler);
   t.deepEqual(await handler({ httpMethod: 'GET', requestContext: {} }, {}), {
     body: JSON.stringify(targetResult),
@@ -31,7 +31,7 @@ test('it should decorate response object with HATEOS links', async t => {
       { href: '/todos/123/views', rel: 'views', type: 'GET' }
     ]
   };
-  const handler = resource({
+  const handler = document({
     target: async () => targetResult,
     links: {
       self: {
@@ -63,7 +63,7 @@ test('it should decorate response object with HATEOS links', async t => {
 
 test('it should handle event body properly', async t => {
   const targetResult = {};
-  const handler = resource({ target: async () => targetResult });
+  const handler = document({ target: async () => targetResult });
   t.truthy(handler);
   t.deepEqual(
     await handler(
@@ -88,7 +88,7 @@ test('it should handle event body properly', async t => {
 
 test('it should return an HTTP 415', async t => {
   const targetResult = {};
-  const handler = resource({
+  const handler = document({
     target: async () => targetResult,
     consumes: ['text/json']
   });
@@ -118,7 +118,7 @@ test('it should return an HTTP 415', async t => {
 
 test('it should return an HTTP 400 (invalid body)', async t => {
   const targetResult = {};
-  const handler = resource({
+  const handler = document({
     target: async () => targetResult,
     consumes: ['text/json']
   });
@@ -146,7 +146,7 @@ test('it should return an HTTP 400 (invalid body)', async t => {
 
 test('it should return an HTTP 400 (validation error)', async t => {
   const targetResult = {};
-  const handler = resource({
+  const handler = document({
     target: async () => targetResult,
     consumes: ['text/json'],
     validators: {
@@ -188,7 +188,7 @@ test('it should return an HTTP 400 (validation error)', async t => {
 });
 
 test('it should return an HTTP 500', async t => {
-  const handler = resource({
+  const handler = document({
     target: async () => {
       throw Error('Unhandled application error');
     },

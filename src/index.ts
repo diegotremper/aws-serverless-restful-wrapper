@@ -1,2 +1,2 @@
 export * from './lib/collection';
-export * from './lib/resource';
+export * from './lib/document';
