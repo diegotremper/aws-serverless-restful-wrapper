@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.1](https://github.com/diegotremper/aws-serverless-restful-wrapper/compare/v0.0.8...v1.0.0-alpha.1) (2020-02-26)
+
 ### [0.0.8](https://github.com/diegotremper/aws-serverless-restful-wrapper/compare/v0.0.7...v0.0.8) (2020-02-25)
 
 
