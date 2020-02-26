@@ -1,17 +1,7 @@
 /* eslint-disable no-console */
-import { APIGatewayEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import {
-  internalServerError,
-  ok,
-  badRequest,
-  unsupportedMediaType,
-  unsupportedMethod,
-  bodyDecorator
-} from './response';
+import { APIGatewayEvent } from 'aws-lambda';
 import { WrapperConfig } from './config';
-import { validateRequest } from './validation';
-import { bodyDeserializer, UnsupportedMediaTypeError } from './request';
-import { ensureProperties } from './event';
+import { requestHandler } from './request-handler';
 
 export const eventHandlerFactory = (
   config: WrapperConfig,
@@ -21,65 +11,75 @@ export const eventHandlerFactory = (
     throw new Error('Invalid event configuration (target not found)');
   }
 
-  const validators = config.validators || {};
-  const decorator = config.decorator || bodyDecorator;
-  const links = config.links || {};
-  const fn = config.target;
-  const consumes = config.consumes || ['application/json'];
+  config.validators = config.validators || {};
+  config.links = config.links || {};
+  config.consumes = config.consumes || ['application/json'];
+  config.supportedMethods = supportedMethods;
 
-  return async (
-    event: APIGatewayEvent,
-    context: Context
-  ): Promise<APIGatewayProxyResult> => {
-    // normalize event
-    ensureProperties(event);
+  return (...args: any[]) => {
+    const isAws = args.length === 3;
+    const isGoogle = args.length === 2;
 
-    if (!supportedMethods.includes(event.httpMethod)) {
-      return unsupportedMethod(event.httpMethod, context);
+    let request;
+    let resolve;
+    let reject;
+
+    if (isAws) {
+      const event: APIGatewayEvent = args[0];
+      const awsEventCallBack: Function = args[2];
+
+      // normalize event
+      event.pathParameters = event.pathParameters || {};
+      event.queryStringParameters = event.queryStringParameters || {};
+      event.headers = event.headers || {};
+
+      // request normalization
+      request = {
+        body: event.body,
+        headers: event.headers,
+        httpMethod: event.httpMethod,
+        path: event.requestContext.path || event.path,
+        pathParameters: event.pathParameters,
+        queryParameters: event.queryStringParameters
+      };
+
+      resolve = result => {
+        awsEventCallBack(null, result);
+      };
+
+      reject = error => {
+        console.log(error);
+        awsEventCallBack(error);
+      };
     }
 
-    // deserialize request body
-    if (['POST', 'PUT', 'PATCH'].includes(event.httpMethod)) {
-      try {
-        event.body = bodyDeserializer(event, consumes);
-      } catch (error) {
-        if (error instanceof UnsupportedMediaTypeError) {
-          return unsupportedMediaType(error.message, context);
-        } else {
-          return badRequest(
-            { message: 'Invalid request body', rootCause: error },
-            context
-          );
-        }
-      }
+    if (isGoogle) {
+      const req = args[0];
+      const resp = args[1];
+
+      // request normalization
+      request = {
+        body: req.rawBody,
+        headers: req.headers,
+        httpMethod: req.method,
+        path: req.originalUrl,
+        pathParameters: req.params,
+        queryParameters: req.query
+      };
+
+      resolve = result => {
+        resp.set(result.headers);
+        resp.status(result.statusCode).send(result.body);
+      };
+
+      reject = error => {
+        console.log(error);
+        resp.status(500).send('Internal Server error');
+      };
     }
 
-    // run request validators
-    try {
-      await validateRequest(event, validators);
-    } catch (error) {
-      return badRequest(
-        { message: 'Invalid request', rootCause: error },
-        context
-      );
-    }
-
-    // call target event
-    let funcResult;
-    try {
-      funcResult = await fn(
-        event.pathParameters,
-        event.queryStringParameters,
-        event.headers,
-        event.body
-      );
-    } catch (error) {
-      console.error('Unexpected error while running', event, error);
-      return internalServerError(error, context);
-    }
-
-    funcResult = decorator(funcResult, links, event);
-
-    return ok(funcResult, context);
+    requestHandler(config, request)
+      .then(resolve)
+      .catch(reject);
   };
 };

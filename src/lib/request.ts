@@ -1,5 +1,9 @@
-import { APIGatewayEvent } from 'aws-lambda';
-import { headerValue } from './event';
+const headerValue = (request: any, header): string => {
+  const headerKey = Object.keys(request.headers).find(
+    key => key.toLowerCase() === header
+  );
+  return request.headers[headerKey];
+};
 
 export class UnsupportedMediaTypeError extends Error {
   public name = 'UnsupportedMediaTypeError';
@@ -8,11 +12,8 @@ export class UnsupportedMediaTypeError extends Error {
   }
 }
 
-export const bodyDeserializer = (
-  event: APIGatewayEvent,
-  consumes: string[]
-) => {
-  const contentType = headerValue(event, 'content-type');
+export const bodyDeserializer = (request: any, consumes: string[]) => {
+  const contentType = headerValue(request, 'content-type');
 
   if (!consumes.includes(contentType)) {
     throw new UnsupportedMediaTypeError(
@@ -20,5 +21,5 @@ export const bodyDeserializer = (
     );
   }
 
-  return JSON.parse(event.body);
+  return JSON.parse(request.body);
 };

@@ -1,6 +1,4 @@
 import Joi from '@hapi/joi';
-import { APIGatewayEvent } from 'aws-lambda';
-
 interface ValidationOptions {
   body?: Joi.ObjectSchema;
   headers?: Joi.ObjectSchema;
@@ -18,9 +16,10 @@ export interface WrapperConfig {
   decorator?: (
     result: any,
     links: { [name: string]: ApiLink },
-    event: APIGatewayEvent
+    request: any
   ) => any;
   links?: { [name: string]: ApiLink };
+  supportedMethods?: string[];
   target: (
     pathParameters: { [name: string]: string },
     queryStringParameters: { [name: string]: string },

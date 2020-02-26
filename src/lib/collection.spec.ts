@@ -1,4 +1,4 @@
-/* eslint-disable no-template-curly-in-string */
+/* eslint-disable */
 import test from 'ava';
 import { collection } from './collection';
 
@@ -7,37 +7,60 @@ test('it should return an event handler', t => {
   t.truthy(handler);
 });
 
-test('it fail with 415', async t => {
+test.cb('it fail with 415', t => {
   const targetResult = [];
   const handler = collection({ target: async () => targetResult });
-  t.truthy(handler);
-  t.deepEqual(await handler({ httpMethod: 'POST', requestContext: {} }, {}), {
-    body: JSON.stringify({
-      message: 'Method Not Allowed: POST'
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-      'X-App-Trace-Id': null
-    },
-    statusCode: 405
+
+  t.plan(1);
+
+  handler({ httpMethod: 'POST', requestContext: {} }, {}, (error, result) => {
+    if (error) {
+      t.fail();
+      return;
+    }
+    t.deepEqual(result, {
+      body: JSON.stringify({
+        message: 'Method Not Allowed: POST'
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      statusCode: 405
+    });
+
+    t.end();
   });
 });
 
-test('it should handle event correctly', async t => {
+test.cb('it should handle event correctly', t => {
   const targetResult = [];
   const handler = collection({ target: async () => targetResult });
-  t.truthy(handler);
-  t.deepEqual(await handler({ httpMethod: 'GET', requestContext: {} }, {}), {
-    body: JSON.stringify(targetResult),
-    headers: {
-      'Content-Type': 'application/json',
-      'X-App-Trace-Id': null
-    },
-    statusCode: 200
+  t.plan(1);
+
+  handler({ httpMethod: 'GET', requestContext: {} }, {}, (error, result) => {
+    if (error) {
+      t.fail();
+      return;
+    }
+
+    t.deepEqual(
+      result,
+      {
+        body: JSON.stringify(targetResult),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        statusCode: 200
+      },
+      'response it not equals'
+    );
+
+    t.end();
   });
 });
 
-test('it should decorate response object with HATEOS links', async t => {
+test.cb('it should decorate response object with HATEOS links', t => {
+  t.plan(1);
   const targetResult = [{ id: '123', text: 'test' }];
   const decoratedReponse = [
     {
@@ -54,27 +77,33 @@ test('it should decorate response object with HATEOS links', async t => {
     links: {
       self: {
         type: 'GET',
-        href: '${event.requestContext.path}/${item.id}'
+        href: '${request.path}/${item.id}'
       },
       views: {
         type: 'GET',
-        href: '${event.requestContext.path}/${item.id}/views'
+        href: '${request.path}/${item.id}/views'
       }
     }
   });
-  t.truthy(handler);
-  t.deepEqual(
-    await handler(
-      { httpMethod: 'GET', requestContext: { path: '/todos' } },
-      {}
-    ),
-    {
-      body: JSON.stringify(decoratedReponse),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-App-Trace-Id': null
-      },
-      statusCode: 200
+
+  handler(
+    { httpMethod: 'GET', requestContext: { path: '/todos' } },
+    {},
+    (error, result) => {
+      if (error) {
+        t.fail();
+        return;
+      }
+
+      t.deepEqual(result, {
+        body: JSON.stringify(decoratedReponse),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        statusCode: 200
+      });
+
+      t.end();
     }
   );
 });

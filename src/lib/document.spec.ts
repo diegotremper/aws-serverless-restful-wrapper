@@ -8,21 +8,28 @@ test('it should return an event handler', t => {
   t.truthy(handler);
 });
 
-test('it should handle event correctly', async t => {
+test.cb('it should handle event correctly', t => {
   const targetResult = {};
   const handler = document({ target: async () => targetResult });
-  t.truthy(handler);
-  t.deepEqual(await handler({ httpMethod: 'GET', requestContext: {} }, {}), {
-    body: JSON.stringify(targetResult),
-    headers: {
-      'Content-Type': 'application/json',
-      'X-App-Trace-Id': null
-    },
-    statusCode: 200
+  t.plan(1);
+
+  handler({ httpMethod: 'GET', requestContext: {} }, {}, (error, result) => {
+    if (error) {
+      t.fail();
+      return;
+    }
+    t.deepEqual(result, {
+      body: JSON.stringify(targetResult),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      statusCode: 200
+    });
+    t.end();
   });
 });
 
-test('it should decorate response object with HATEOS links', async t => {
+test.cb('it should decorate response object with HATEOS links', t => {
   const targetResult = { id: '123' };
   const decoratedReponse = {
     id: '123',
@@ -31,120 +38,143 @@ test('it should decorate response object with HATEOS links', async t => {
       { href: '/todos/123/views', rel: 'views', type: 'GET' }
     ]
   };
+  t.plan(1);
   const handler = document({
     target: async () => targetResult,
     links: {
       self: {
         type: 'GET',
-        href: '${event.requestContext.path}'
+        href: '${request.path}'
       },
       views: {
         type: 'GET',
-        href: '${event.requestContext.path}/views'
+        href: '${request.path}/views'
       }
     }
   });
-  t.truthy(handler);
-  t.deepEqual(
-    await handler(
-      { httpMethod: 'GET', requestContext: { path: '/todos/123' } },
-      {}
-    ),
-    {
-      body: JSON.stringify(decoratedReponse),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-App-Trace-Id': null
-      },
-      statusCode: 200
+
+  handler(
+    { httpMethod: 'GET', requestContext: { path: '/todos/123' } },
+    {},
+    (error, result) => {
+      if (error) {
+        t.fail();
+        return;
+      }
+      t.deepEqual(result, {
+        body: JSON.stringify(decoratedReponse),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        statusCode: 200
+      });
+      t.end();
     }
   );
 });
 
-test('it should handle event body properly', async t => {
+test.cb('it should handle event body properly', t => {
   const targetResult = {};
   const handler = document({ target: async () => targetResult });
-  t.truthy(handler);
-  t.deepEqual(
-    await handler(
-      {
-        httpMethod: 'POST',
-        requestContext: {},
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({})
-      },
-      {}
-    ),
+  t.plan(1);
+  handler(
     {
-      body: JSON.stringify(targetResult),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-App-Trace-Id': null
-      },
-      statusCode: 200
+      httpMethod: 'POST',
+      requestContext: {},
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({})
+    },
+    {},
+    (error, result) => {
+      if (error) {
+        t.fail();
+        return;
+      }
+      t.deepEqual(result, {
+        body: JSON.stringify(targetResult),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        statusCode: 200
+      });
+      t.end();
     }
   );
 });
 
-test('it should return an HTTP 415', async t => {
+test.cb('it should return an HTTP 415', t => {
   const targetResult = {};
   const handler = document({
     target: async () => targetResult,
     consumes: ['text/json']
   });
-  t.truthy(handler);
-  t.deepEqual(
-    await handler(
-      {
-        httpMethod: 'PUT',
-        requestContext: {},
-        headers: { 'content-type': 'application/json' },
-        body: null
-      },
-      {}
-    ),
+  t.plan(1);
+
+  handler(
     {
-      body: JSON.stringify({
-        message: 'Unsupported Media type application/json'
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-App-Trace-Id': null
-      },
-      statusCode: 415
+      httpMethod: 'PUT',
+      requestContext: {},
+      headers: { 'content-type': 'application/json' },
+      body: null
+    },
+    {},
+    (error, result) => {
+      if (error) {
+        t.fail();
+        return;
+      }
+      t.deepEqual(result, {
+        body: JSON.stringify({
+          message: 'Unsupported Media type application/json'
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        statusCode: 415
+      });
+      t.end();
     }
   );
 });
 
-test('it should return an HTTP 400 (invalid body)', async t => {
+test.cb('it should return an HTTP 400 (invalid body)', t => {
   const targetResult = {};
   const handler = document({
     target: async () => targetResult,
     consumes: ['text/json']
   });
-  t.truthy(handler);
-  t.deepEqual(
-    await handler(
-      {
-        httpMethod: 'PUT',
-        requestContext: {},
-        headers: { 'content-type': 'text/json' },
-        body: '{invalid json'
-      },
-      {}
-    ),
+  t.plan(1);
+
+  handler(
     {
-      body: JSON.stringify({ message: 'Invalid request body', rootCause: {} }),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-App-Trace-Id': null
-      },
-      statusCode: 400
+      httpMethod: 'PUT',
+      requestContext: {},
+      headers: { 'content-type': 'text/json' },
+      body: '{invalid json'
+    },
+    {},
+    (error, result) => {
+      if (error) {
+        t.fail();
+        return;
+      }
+
+      t.deepEqual(result, {
+        body: JSON.stringify({
+          message: 'Invalid request body',
+          rootCause: {}
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        statusCode: 400
+      });
+      t.end();
     }
   );
 });
 
-test('it should return an HTTP 400 (validation error)', async t => {
+test.cb('it should return an HTTP 400 (validation error)', t => {
   const targetResult = {};
   const handler = document({
     target: async () => targetResult,
@@ -153,41 +183,46 @@ test('it should return an HTTP 400 (validation error)', async t => {
       body: Joi.object({ text: Joi.string().required() }).unknown(true)
     }
   });
-  t.truthy(handler);
-  t.deepEqual(
-    await handler(
-      {
-        httpMethod: 'PUT',
-        requestContext: {},
-        headers: { 'content-type': 'text/json' },
-        body: JSON.stringify({ checked: true })
-      },
-      {}
-    ),
+  t.plan(1);
+
+  handler(
     {
-      body: JSON.stringify({
-        message: 'Invalid request',
-        rootCause: {
-          details: [
-            {
-              message: '"body.text" is required',
-              path: ['body', 'text'],
-              type: 'any.required',
-              context: { label: 'body.text', key: 'text' }
-            }
-          ]
-        }
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-App-Trace-Id': null
-      },
-      statusCode: 400
+      httpMethod: 'PUT',
+      requestContext: {},
+      headers: { 'content-type': 'text/json' },
+      body: JSON.stringify({ checked: true })
+    },
+    {},
+    (error, result) => {
+      if (error) {
+        t.fail();
+        return;
+      }
+      t.deepEqual(result, {
+        body: JSON.stringify({
+          message: 'Invalid request',
+          rootCause: {
+            details: [
+              {
+                message: '"body.text" is required',
+                path: ['body', 'text'],
+                type: 'any.required',
+                context: { label: 'body.text', key: 'text' }
+              }
+            ]
+          }
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        statusCode: 400
+      });
+      t.end();
     }
   );
 });
 
-test('it should return an HTTP 500', async t => {
+test.cb('it should return an HTTP 500', t => {
   const handler = document({
     target: async () => {
       throw Error('Unhandled application error');
@@ -197,24 +232,29 @@ test('it should return an HTTP 500', async t => {
       body: Joi.object({ text: Joi.string().required() }).unknown(true)
     }
   });
-  t.truthy(handler);
-  t.deepEqual(
-    await handler(
-      {
-        httpMethod: 'PUT',
-        requestContext: {},
-        headers: { 'content-type': 'text/json' },
-        body: JSON.stringify({ text: 'new item', checked: true })
-      },
-      {}
-    ),
+  t.plan(1);
+
+  handler(
     {
-      body: JSON.stringify({ message: 'Unhandled application error' }),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-App-Trace-Id': null
-      },
-      statusCode: 500
+      httpMethod: 'PUT',
+      requestContext: {},
+      headers: { 'content-type': 'text/json' },
+      body: JSON.stringify({ text: 'new item', checked: true })
+    },
+    {},
+    (error, result) => {
+      if (error) {
+        t.fail();
+        return;
+      }
+      t.deepEqual(result, {
+        body: JSON.stringify({ message: 'Unhandled application error' }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        statusCode: 500
+      });
+      t.end();
     }
   );
 });
