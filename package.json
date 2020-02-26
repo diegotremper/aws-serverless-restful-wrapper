@@ -33,9 +33,11 @@
     "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
+    "version:alpha": "standard-version --prerelease alpha",
     "reset": "git clean -dfx && git reset --hard && npm i",
     "clean": "trash build test",
-    "prepare-release": "run-s reset test cov:check doc:html version doc:publish"
+    "prepare-release": "run-s reset test cov:check doc:html version doc:publish",
+    "prepare-release:alpha": "run-s reset test cov:check doc:html version:alpha"
   },
   "scripts-info": {
     "info": "Display information about the package scripts",
