@@ -17,8 +17,8 @@ export const eventHandlerFactory = (
   config.supportedMethods = supportedMethods;
 
   return (...args: any[]) => {
-    const isAws = args.length === 3;
-    const isGoogle = args.length === 2;
+    const isGoogle = args[0].headers['x-cloud-trace-context'];
+    const isAws = !isGoogle;
 
     let request;
     let resolve;
