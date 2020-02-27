@@ -8,6 +8,7 @@ const translateAws = (...args: any[]) => {
   event.pathParameters = event.pathParameters || {};
   event.queryStringParameters = event.queryStringParameters || {};
   event.headers = event.headers || {};
+  event.requestContext = event.requestContext || {};
 
   // request normalization
   return {
@@ -48,12 +49,14 @@ const translateGoogle = (...args: any[]) => {
 
     resolve: result => {
       resp.set(result.headers);
-      resp.status(result.statusCode).send(result.body);
+      resp.status(result.statusCode);
+      resp.send(result.body);
     },
 
     reject: error => {
       console.log(error);
-      resp.status(500).send('Internal Server error');
+      resp.status(500);
+      resp.send('Internal Server error');
     }
   };
 };
@@ -64,7 +67,8 @@ const VENDOR_MAPPING = {
 };
 
 export const autoDetect = (...args: any[]) => {
-  const isGoogle = args[0].headers && args[0].headers['x-cloud-trace-context'];
+  const isGoogle =
+    args[0] && args[0].headers && args[0].headers['x-cloud-trace-context'];
 
   return isGoogle ? 'google' : 'aws';
 };

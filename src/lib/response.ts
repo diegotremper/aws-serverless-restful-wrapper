@@ -7,6 +7,8 @@ export const bodyDecorator = (result: any, links, request) => {
   const keyLinks = Object.keys(links);
   const hasLinks = keyLinks.length > 0;
 
+  // TODO handle es6-template-strings errors
+
   if (isObject && !isArray && hasLinks) {
     result.links = [];
     keyLinks.forEach(key => {

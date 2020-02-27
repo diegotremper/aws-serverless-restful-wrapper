@@ -64,7 +64,7 @@ test('it should validate event', async t => {
   });
 });
 
-test.only('it should throw a validation error', async t => {
+test('it should throw a validation error', async t => {
   const testCases = [
     {
       request: { pathParameters: { id: '123' } },

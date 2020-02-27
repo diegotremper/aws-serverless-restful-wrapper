@@ -8,6 +8,16 @@ test('it should return an event handler', t => {
   t.truthy(handler);
 });
 
+test('it should throw an invalid configuration', t => {
+  t.plan(1);
+  t.throws(
+    () => {
+      document.apply(null, [{}]);
+    },
+    { message: 'Invalid event configuration (target not found)' }
+  );
+});
+
 test.cb('it should handle event correctly', t => {
   const targetResult = {};
   const handler = document({ target: async () => targetResult });
