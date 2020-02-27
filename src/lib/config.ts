@@ -1,4 +1,5 @@
 import Joi from '@hapi/joi';
+
 interface ValidationOptions {
   body?: Joi.ObjectSchema;
   headers?: Joi.ObjectSchema;
@@ -13,6 +14,7 @@ interface ApiLink {
 
 export interface WrapperConfig {
   consumes?: string[];
+  cloudVendor?: 'aws' | 'google';
   decorator?: (
     result: any,
     links: { [name: string]: ApiLink },
