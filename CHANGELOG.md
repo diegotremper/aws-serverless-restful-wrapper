@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.5](https://github.com/diegotremper/aws-serverless-restful-wrapper/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2020-02-28)
+
+
+### Features
+
+* **logging:** Add implementable logging support ([2bec1dc](https://github.com/diegotremper/aws-serverless-restful-wrapper/commit/2bec1dccbbb59b2090cfd7f253c392e049b66a10))
+
 ## [1.0.0-alpha.4](https://github.com/diegotremper/aws-serverless-restful-wrapper/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2020-02-27)
 
 ## [1.0.0-alpha.3](https://github.com/diegotremper/aws-serverless-restful-wrapper/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2020-02-27)
