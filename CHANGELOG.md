@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.6](https://github.com/diegotremper/aws-serverless-restful-wrapper/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2020-02-28)
+
+
+### Bug Fixes
+
+* Library DX ([355248e](https://github.com/diegotremper/aws-serverless-restful-wrapper/commit/355248e4e8e0f88e010474ec5e166bc0eded7e96))
+
 ## [1.0.0-alpha.5](https://github.com/diegotremper/aws-serverless-restful-wrapper/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2020-02-28)
 
 
