@@ -16,9 +16,12 @@ An API Gateway event wrapper for AWS Lambda functions for REST APIs
 
 ## Features
 
-* Support request validation with [@hapijs/joi](https://github.com/hapijs/joi)
-* Support [RESTful](https://restfulapi.net/) principle
-* Support [HATEOAS](https://restfulapi.net/hateoas/) principle
+* Provides cloud agnostic wrappers for RESTful webservices.
+* Minimal configuration.
+* Supports [HATEOAS](https://restfulapi.net/hateoas/) principle.
+* Supports request validation with [@hapijs/joi](https://github.com/hapijs/joi).
+* Supports [RESTful](https://restfulapi.net/) principle.
+* Extensible: Plug you own hypster cloud provider as you need.
 
 ## Useful resources
 
