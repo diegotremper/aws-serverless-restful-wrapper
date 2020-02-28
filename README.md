@@ -8,7 +8,7 @@ An API Gateway event wrapper for AWS Lambda functions for REST APIs
 [![codecov](https://codecov.io/gh/diegotremper/aws-serverless-restful-wrapper/branch/master/graph/badge.svg)](https://codecov.io/gh/diegotremper/aws-serverless-restful-wrapper)
 [![dependencies Status](https://david-dm.org/diegotremper/aws-serverless-restful-wrapper/status.svg)](https://david-dm.org/diegotremper/aws-serverless-restful-wrapper)
 [![devDependencies Status](https://david-dm.org/diegotremper/aws-serverless-restful-wrapper/dev-status.svg)](https://david-dm.org/diegotremper/aws-serverless-restful-wrapper?type=dev)
-[![Known Vulnerabilities](https://snyk.io/test/github/diegotremper/aws-serverless-restful-wrapper/badge.svg?targetFile=package.json)](https://snyk.io/test/github/diegotremper/aws-serverless-restful-wrapper?targetFile=package.json)
+[![Known Vulnerabilities](https://snyk.io/test/github/diegotremper/aws-serverless-restful-wrapper/badge.svg?targetFile=package.json)](https://snyk.io/test/github/diegotremper/aws-serverless-restful-wrapper?targetFile=package.json) [![Greenkeeper badge](https://badges.greenkeeper.io/diegotremper/aws-serverless-restful-wrapper.svg)](https://greenkeeper.io/)
 
 ## Install
 
