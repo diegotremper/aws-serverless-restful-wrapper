@@ -16,11 +16,10 @@ export const eventHandlerFactory = (
   config.supportedMethods = supportedMethods;
 
   return (...args: any[]) => {
-    config.cloudVendor =
-      config.cloudVendor || vendors.autoDetect.apply(null, args);
+    config.vendor = config.vendor || vendors.autoDetect.apply(null, args);
 
     const { request, resolve, reject } = vendors.translate.apply(null, [
-      config.cloudVendor,
+      config.vendor,
       ...args
     ]);
 

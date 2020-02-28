@@ -1,17 +1,14 @@
 import test from 'ava';
 import ninos from 'ninos';
-import * as vendors from './vendors';
+import { autoDetect, translate } from './vendors';
 
 const ntest = ninos(test);
 
 test('it should return correct vendor', t => {
   t.plan(3);
-  t.is(vendors.autoDetect(), 'aws'); // default
-  t.is(vendors.autoDetect({}), 'aws');
-  t.is(
-    vendors.autoDetect({ headers: { 'x-cloud-trace-context': 'xxxx' } }),
-    'google'
-  );
+  t.is(autoDetect(), 'aws'); // default
+  t.is(autoDetect({}), 'aws');
+  t.is(autoDetect({ headers: { 'x-cloud-trace-context': 'xxxx' } }), 'google');
 });
 
 ntest('it should translate google call to request', t => {
@@ -21,7 +18,7 @@ ntest('it should translate google call to request', t => {
   const statusStub = t.context.stub();
   const sendStub = t.context.stub();
 
-  const { request, resolve, reject } = vendors.translate(
+  const { request, resolve, reject } = translate(
     'google',
     {
       headers: { 'x-cloud-trace-context': 'xxxx' }
@@ -60,7 +57,7 @@ ntest('it should translate aws call to request', t => {
 
   const awsEventCallBack = t.context.stub();
 
-  const { request, resolve, reject } = vendors.translate(
+  const { request, resolve, reject } = translate(
     'aws',
     {},
     {},

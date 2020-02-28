@@ -14,7 +14,7 @@ interface ApiLink {
 
 export interface WrapperConfig {
   consumes?: string[];
-  cloudVendor?: 'aws' | 'google';
+  vendor?: string;
   decorator?: (
     result: any,
     links: { [name: string]: ApiLink },
