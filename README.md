@@ -1,5 +1,10 @@
 # aws-serverless-restful-wrapper
 
+---
+**NOTE**
+This package is no longer maintained and was moved to [@cloudifyjs/restful](https://www.npmjs.com/package/@cloudifyjs/restful).
+---
+
 An API Gateway event wrapper for AWS Lambda functions for REST APIs
 
 [![CircleCI](https://circleci.com/gh/diegotremper/aws-serverless-restful-wrapper.svg?style=svg)](https://circleci.com/gh/diegotremper/aws-serverless-restful-wrapper)
@@ -19,10 +24,6 @@ An API Gateway event wrapper for AWS Lambda functions for REST APIs
 * Support request validation with [@hapijs/joi](https://github.com/hapijs/joi)
 * Support [RESTful](https://restfulapi.net/) principle
 * Support [HATEOAS](https://restfulapi.net/hateoas/) principle
-
-## Useful resources
-
-* [Examples](https://github.com/diegotremper/aws-serverless-restful-wrapper-examples)
 
 ## Usage
 
