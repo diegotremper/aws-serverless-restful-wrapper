@@ -79,7 +79,7 @@
     "gh-pages": "^2.0.1",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.0.0",
-    "open-cli": "^5.0.0",
+    "open-cli": "^6.0.1",
     "prettier": "^1.18.2",
     "standard-version": "^7.1.0",
     "trash-cli": "^3.0.0",
