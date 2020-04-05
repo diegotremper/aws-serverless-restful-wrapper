@@ -54,7 +54,7 @@
     "node": ">=8.9"
   },
   "dependencies": {
-    "@hapi/joi": "^17.1.0",
+    "@hapi/joi": "^17.1.1",
     "es6-template-strings": "^2.0.1"
   },
   "devDependencies": {
