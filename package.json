@@ -65,7 +65,7 @@
     "@types/aws-lambda": "^8.10.44",
     "@types/hapi__joi": "^16.0.11",
     "@types/joi": "^14.3.4",
-    "@types/node": "^13.7.4",
+    "@types/node": "^14.0.1",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
