@@ -63,7 +63,7 @@
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/async": "^3.0.8",
     "@types/aws-lambda": "^8.10.44",
-    "@types/hapi__joi": "^16.0.11",
+    "@types/hapi__joi": "^17.1.1",
     "@types/joi": "^14.3.4",
     "@types/node": "^13.7.4",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
